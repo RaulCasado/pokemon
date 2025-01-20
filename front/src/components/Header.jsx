@@ -1,9 +1,8 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-    <header className="bg-yellow-400 text-gray-800 shadow-lg p-4 border-b-4 border-red-600">
+    <header className="bg-yellow-400 text-gray-800 shadow-lg p-4 border-b-4 border-red-600 w-full">
       <nav className="container mx-auto flex justify-between items-center">
         <h1 className="text-3xl font-bold flex items-center space-x-2">
           <Link to="/" className="flex items-center hover:opacity-90 transition">
