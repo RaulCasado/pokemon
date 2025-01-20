@@ -4,9 +4,9 @@ back/__pycache__/
 back/*.pyc
 back/*.pyo
 
-front/pokemon-quiz/node_modules/
-front/pokemon-quiz/.env
-front/pokemon-quiz/dist/
+front/node_modules/
+front/.env
+front/dist/
 
 .DS_Store
 .vscode/
