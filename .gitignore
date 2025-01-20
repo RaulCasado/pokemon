@@ -1,8 +1,7 @@
 back/venv/
+back/.venv/
 back/.env
-back/__pycache__/
-back/*.pyc
-back/*.pyo
+back/app/__pycache__/
 
 front/node_modules/
 front/.env
