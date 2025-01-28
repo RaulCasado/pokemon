@@ -1,6 +1,7 @@
 import mysql.connector
 import requests
 
+# this should come from a .env file
 connection = mysql.connector.connect(
     host="127.0.0.1",
     user="root",
@@ -60,6 +61,105 @@ CREATE TABLE IF NOT EXISTS pokemon_type (
     FOREIGN KEY (type_id) REFERENCES type(id) ON DELETE CASCADE
 )
 """)
+
+cursor.execute("""
+    CREATE TABLE IF NOT EXISTS habilities (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        name VARCHAR(255) NOT NULL,
+        effect VARCHAR(255) NOT NULL
+    )
+""")
+
+cursor.execute("""
+    CREATE TABLE IF NOT EXISTS pokemon_habilities (
+        pokemon_id INT,
+        habilities_id INT,
+        PRIMARY KEY (pokemon_id, habilities_id),
+        FOREIGN KEY (pokemon_id) REFERENCES pokemon(id) ON DELETE CASCADE,
+        FOREIGN KEY (habilities_id) REFERENCES habilities(id) ON DELETE CASCADE
+    )
+""")
+
+cursor.execute("""
+    CREATE TABLE IF NOT EXISTS habilities_translation (
+        id INT PRIMARY KEY AUTO_INCREMENT,
+        habilities_id INT,
+        language_id INT,
+        translation VARCHAR(100) NOT NULL,
+        FOREIGN KEY (habilities_id) REFERENCES habilities(id) ON DELETE CASCADE,
+        FOREIGN KEY (language_id) REFERENCES language(id) ON DELETE CASCADE,
+        UNIQUE KEY unique_habilities_lang (habilities_id, language_id)
+    )
+""")
+
+cursor.execute("""
+			CREATE TABLE IF NOT EXISTS stats (
+                    id INT PRIMARY KEY AUTO_INCREMENT,
+                    name VARCHAR(255) NOT NULL
+                )
+                """) 
+
+cursor.execute("""
+			CREATE TABLE IF NOT EXISTS pokemon_stats (
+                        pokemon_id INT,
+                        stats_id INT,
+                        value INT,
+                        PRIMARY KEY (pokemon_id, stats_id),
+                        FOREIGN KEY (pokemon_id) REFERENCES pokemon(id) ON DELETE CASCADE,
+                        FOREIGN KEY (stats_id) REFERENCES stats(id) ON DELETE CASCADE
+                    )
+                    """)
+
+
+cursor.execute("""
+			CREATE TABLE IF NOT EXISTS stats_translation (
+                        id INT PRIMARY KEY AUTO_INCREMENT,
+                        stats_id INT,
+                        language_id INT,
+                        translation VARCHAR(100) NOT NULL,
+                        FOREIGN KEY (stats_id) REFERENCES stats(id) ON DELETE CASCADE,
+                        FOREIGN KEY (language_id) REFERENCES language(id) ON DELETE CASCADE,
+                        UNIQUE KEY unique_stats_lang (stats_id, language_id)
+                    )
+                    """)
+
+cursor.execute("""
+			CREATE TABLE IF NOT EXISTS moves (
+                        id INT PRIMARY KEY AUTO_INCREMENT,
+                        name VARCHAR(255) NOT NULL,
+                        accuracy INT,
+                        pp INT,
+                        power INT,
+                        priority INT,
+                        type_id INT,
+                        FOREIGN KEY (type_id) REFERENCES type(id) ON DELETE CASCADE
+                    )
+                    """)
+
+cursor.execute("""
+            CREATE TABLE IF NOT EXISTS moves_translation (
+                        id INT PRIMARY KEY AUTO_INCREMENT,
+                        moves_id INT,
+                        language_id INT,
+                        translation VARCHAR(100) NOT NULL,
+                        FOREIGN KEY (moves_id) REFERENCES moves(id) ON DELETE CASCADE,
+                        FOREIGN KEY (language_id) REFERENCES language(id) ON DELETE CASCADE,
+                        UNIQUE KEY unique_moves_lang (moves_id, language_id)
+                    )
+                    """)
+
+cursor.execute("""
+            CREATE TABLE IF NOT EXISTS pokemon_moves (
+                        pokemon_id INT,
+                        moves_id INT,
+                        PRIMARY KEY (pokemon_id, moves_id),
+                        FOREIGN KEY (pokemon_id) REFERENCES pokemon(id) ON DELETE CASCADE,
+                        FOREIGN KEY (moves_id) REFERENCES moves(id) ON DELETE CASCADE
+                    )
+                    """)
+
+# we can add games(generations) items evolutions(next and previous) and more the pokeapi has a lot of information
+# move category i mean physical, special, status
 
 languages = [
     ("English", "en"),
